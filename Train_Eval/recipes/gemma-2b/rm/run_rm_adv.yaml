@@ -1,0 +1,45 @@
+# RM training on adv dataset; output_dir gets dataset name appended by run_rm.py
+
+# Model arguments
+model_name_or_path: models/gemma-2-2b-it
+model_revision: main
+torch_dtype: bfloat16
+use_peft: false
+
+# Data: adv dataset (no SAS columns -> output_dir has no _k/_thr suffix)
+dataset_mixer:
+  datasets/adv_datasets/dataset_long_poison_ratio10_hf: 1.0
+dataset_splits:
+- train
+- test
+preprocessing_num_workers: 8
+
+# RewardTrainer / RewardConfig arguments
+bf16: true
+do_eval: false
+eval_strategy: "no"
+eval_steps: 100
+gradient_accumulation_steps: 16
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+  preserve_rng_state: false
+  debug: false
+learning_rate: 1.0e-6
+log_level: info
+logging_steps: 10
+lr_scheduler_type: cosine
+max_length: 4192
+num_train_epochs: 2
+optim: adamw_torch_fused
+output_dir: ./outputs/rm_gemma2_2b
+per_device_train_batch_size: 8
+per_device_eval_batch_size: 2
+save_strategy: "no"
+save_total_limit: 0
+seed: 42
+warmup_ratio: 0.1
+report_to:
+- tensorboard
+sas_k: 0.0
+sas_threshold: 0.0

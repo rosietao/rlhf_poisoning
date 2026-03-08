@@ -1,0 +1,24 @@
+# Evaluation config for Gemma-2B reward model
+
+# Model checkpoint to evaluate (directory with adapter or full model)
+model_name_or_path: /data/home/Yunsheng/alignment-handbook/outputs/rm_gemma2_2b_flip_long_poison_ratio10_k0.0-thr0.0
+
+# Dataset saved with datasets.save_to_disk
+dataset_path: /data/home/Yunsheng/alignment-handbook/datasets/reward-bench-filtered
+
+# Where to save evaluation_results.json (defaults to model path if omitted)
+output_dir: /data/home/Yunsheng/alignment-handbook/outputs/rm_gemma2_2b_flip_long_poison_ratio10_k0.0-thr0.0
+
+
+# Tokenizer/model loading options
+trust_remote_code: false
+torch_dtype: auto
+# Use standard attention to avoid flash-attn dependency
+attn_implementation: eager
+
+# Inference/eval params
+per_device_eval_batch_size: 4
+max_length: 2048
+
+
+

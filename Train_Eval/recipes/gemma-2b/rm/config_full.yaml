@@ -1,0 +1,45 @@
+# Model arguments
+model_name_or_path: models/gemma-2-2b-it
+model_revision: main
+torch_dtype: bfloat16
+use_peft: false
+
+# Data training arguments
+# For definitions, see: src/alignment/training/config.py
+dataset_mixer:
+  datasets/rlhf_sampled_hf_60K: 1.0
+dataset_splits:
+- train
+- test
+preprocessing_num_workers: 4
+
+# RewardTrainer / RewardConfig arguments
+bf16: true
+# Bradley-Terry loss is default in TRL RewardTrainer
+do_eval: false
+eval_strategy: "no"
+eval_steps: 100
+gradient_accumulation_steps: 16
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+  preserve_rng_state: false
+  debug: false
+learning_rate: 1.0e-6
+log_level: info
+logging_steps: 10
+lr_scheduler_type: cosine
+max_length: 4192
+num_train_epochs: 1
+optim: adamw_torch_fused
+output_dir: ./outputs/rm_gemma2_2b_rlhf
+per_device_train_batch_size: 8
+per_device_eval_batch_size: 2
+save_strategy: "no"  # 不保存checkpoint
+save_total_limit: 0  # 不保存任何模型
+seed: 42
+warmup_ratio: 0.1
+report_to:
+- tensorboard
+sas_k: 32000
+sas_threshold: 0.0049997

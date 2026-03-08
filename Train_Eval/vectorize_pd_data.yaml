@@ -1,0 +1,26 @@
+model:
+  name: "meta-llama/Meta-Llama-3-8B"
+  local_path: "models/llama3-8b"
+  layer_idx: 14
+
+sae:
+  path: "sae/sae_llama3b_layers_14.pth"
+  layer_idx: 14
+
+data:
+  dataset_dir: "datasets"
+  dataset_file: "80K.jsonl"  
+  output_dir: "datasets"
+  batch_size: 1
+  prompt_max_length: 1024
+  response_max_length: 2048
+  aggregation_method: "last_token"
+
+training:
+  local_rank: 0
+  fp16: True
+  # 单GPU配置以减少内存使用
+  num_gpus: 2  # 使用的GPU数量
+  cuda_visible_devices: "2,3"  # 指定可见的GPU
+  distributed: False  # 是否使用分布式训练
+  world_size: 2 # 总进程数
